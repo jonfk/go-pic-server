@@ -1,0 +1,5 @@
+COMP535 assignment redone in Go.
+
+Picture server that can serve several 100s clients simultanously.
+
+Add ability to prioritize client requests using some scheduling.
