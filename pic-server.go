@@ -10,7 +10,7 @@ import (
     "encoding/binary"
 )
 
-const listenAddr = "localhost:4000"
+const listenAddr = ":4000"
 
 func main() {
     l, err := net.Listen("tcp", listenAddr)
@@ -57,7 +57,7 @@ func serve(c net.Conn) {
         os.Exit(1)
     }
 
-    f, err := os.Open("/home/jfokka/andrea.jpg")
+    f, err := os.Open("/var/www/images/" + filename)//("/home/faiz/andrea.jpg")
     if err != nil {
         log.Fatal(err)
     }
@@ -87,19 +87,23 @@ func serve(c net.Conn) {
     if err != nil {
         log.Fatal(err)
     }
+    fmt.Println("1")
     sizeRead = 0
     for sizeRead < len(b) {
+        fmt.Println("2")
         addSize, err := c.Write(b)
+        fmt.Println("3")
         if err != nil {
             log.Fatal(err)
         }
+	fmt.Println("size written: "+string(addSize))
         sizeRead += addSize
     }
     fmt.Println("---File Transfer Complete---")
 }
 
 func isValid(filename string) bool {
-    fileList := []string{"andrea.jpg", "erinstern.jpg", "hamlet.txt"}
+    fileList := []string{"andrea.jpg", "erinstern.jpg", "hamlet.txt", "girl.bmp"}
 
     for _, f := range fileList {
         if filename == f {
