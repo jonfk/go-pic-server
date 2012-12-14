@@ -9,7 +9,7 @@ import (
     "fmt"
 )
 
-const connAddr = "localhost:4000"
+const connAddr = "192.168.0.185:4000"
 
 // Error handling not done
 // How to close the connection when C-c is pressed?
@@ -23,10 +23,14 @@ func main() {
         buf bytes.Buffer
         b []byte
         size int64
+	fileArg string
     )
 
+    fileArg = os.Args[1]
+    fmt.Println(fileArg)
+
     // Request file
-    conn.Write([]byte("andrea.jpg"))
+    conn.Write([]byte(fileArg))
 
     b = make([]byte, 8)
     nr, err := conn.Read(b)
@@ -48,7 +52,7 @@ func main() {
     }
     //fmt.Println(buf)
     
-    f, err := os.Create("erinstern_bak.jpg")
+    f, err := os.Create(fileArg)
     if err != nil {
         log.Fatal(err)
     }
