@@ -7,6 +7,8 @@ import (
     "bytes"
     "encoding/binary"
     "fmt"
+    "time"
+    "strconv"
 )
 
 const connAddr = "192.168.0.185:4000"
@@ -31,6 +33,7 @@ func main() {
 
     // Request file
     conn.Write([]byte(fileArg))
+    t0 := time.Now()
 
     b = make([]byte, 8)
     nr, err := conn.Read(b)
@@ -50,6 +53,23 @@ func main() {
         conn.Read(b)
         buf.Write(b)
     }
+    t1 := time.Now()
+    time_taken := t1.Sub(t0)
+    time_f, err := os.OpenFile("send_time.csv", os.O_APPEND | os.O_RDWR | os.O_CREATE, 0666)
+    if err != nil {
+        log.Fatal(err)
+    }
+    //time_taken_buf := make([]byte, 256)
+    //binary.PutVarint(time_taken_buf, time_taken.Nanoseconds())
+    _, err = time_f.Write([]byte( strconv.FormatFloat(time_taken.Seconds(), 'e', 10, 64) ))
+    if err != nil {
+        log.Fatal(err)
+    }
+    _, err = time_f.Write( []byte("\n") )
+    if err != nil {
+        log.Fatal(err)
+    }
+    time_f.Close()
     //fmt.Println(buf)
     
     f, err := os.Create(fileArg)
