@@ -11,11 +11,12 @@ import (
     "strconv"
 )
 
-const connAddr = "192.168.0.185:4000"
+//const connAddr = "192.168.0.185:4000"
 
 // Error handling not done
 // How to close the connection when C-c is pressed?
 func main() {
+    connAddr := os.Args[1]
     conn, err := net.Dial("tcp", connAddr)
     if err != nil {
         log.Fatal(err)
@@ -28,7 +29,7 @@ func main() {
 	fileArg string
     )
 
-    fileArg = os.Args[1]
+    fileArg = os.Args[2]
     fmt.Println(fileArg)
 
     // Request file
@@ -59,8 +60,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    //time_taken_buf := make([]byte, 256)
-    //binary.PutVarint(time_taken_buf, time_taken.Nanoseconds())
+
     _, err = time_f.Write([]byte( strconv.FormatFloat(time_taken.Seconds(), 'e', 10, 64) ))
     if err != nil {
         log.Fatal(err)

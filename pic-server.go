@@ -52,10 +52,10 @@ func serve(c net.Conn) {
     fmt.Print("length : ")
     fmt.Println(len(filename))
 
-    if !isValid(filename) {
+    /*if !isValid(filename) {
         fmt.Println("cannot serve request for file: " + filename)
         os.Exit(1)
-    }
+    }*/
 
     f, err := os.Open("/var/www/images/" + filename)//("/home/faiz/andrea.jpg")
     if err != nil {
